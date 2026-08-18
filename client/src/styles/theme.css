@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Control-room dark: warm charcoal, no blue/cyan SaaS palette */
+[data-theme="dark"] {
+  --bg: #1a1917;
+  --surface: #222019;
+  --surface-raised: #2a2722;
+  --border: #3a3630;
+  --primary: #b8952e;
+  --primary-hover: #9a7d26;
+  --accent: #6d7a4a;
+  --text: #e6e2d9;
+  --text-muted: #9c968a;
+  --ok: #5c8f62;
+  --warn: #c07a1a;
+  --critical: #a84838;
+  --chart-1: #b8952e;
+  --chart-2: #6d7a4a;
+}
+
+/* Floor-report light: paper, ink, stamped labels */
+[data-theme="light"] {
+  --bg: #e8e4dc;
+  --surface: #f3f0ea;
+  --surface-raised: #ddd8cf;
+  --border: #b8b0a4;
+  --primary: #7a5c12;
+  --primary-hover: #5f480e;
+  --accent: #4a5530;
+  --text: #2a2722;
+  --text-muted: #6b655c;
+  --ok: #3d6b42;
+  --warn: #9a5a0a;
+  --critical: #8b3428;
+  --chart-1: #7a5c12;
+  --chart-2: #4a5530;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Subtle grid — like floor plan paper, not a gradient hero */
+.app-canvas {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
+}
+
+[data-theme="dark"] .app-canvas {
+  background-image:
+    linear-gradient(rgba(58, 54, 48, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58, 54, 48, 0.35) 1px, transparent 1px);
+}
+
+@keyframes blink-led {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.live-led {
+  animation: blink-led 2s step-start infinite;
+}
+
+@layer components {
+  .panel {
+    @apply border border-border bg-surface;
+    border-radius: 2px;
+  }
+
+  .panel-inset {
+    @apply border border-border bg-surface-raised;
+    border-radius: 2px;
+  }
+
+  .readout {
+    @apply panel-inset border-l-[3px] border-l-primary px-4 py-3;
+  }
+
+  .label-caps {
+    @apply font-mono text-[10px] uppercase tracking-[0.12em] text-muted;
+  }
+}
