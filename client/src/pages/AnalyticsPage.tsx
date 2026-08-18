@@ -1,19 +1,12 @@
 import { useCallback, useState } from "react";
-import {
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts";
 import type { DashboardSummary, TrendsResponse } from "../types";
 import { apiClient, formatRelativeTime } from "../lib/apiClient";
 import { usePolling } from "../hooks/useData";
 import { useSettingsStore } from "../stores/liveStore";
+import {
+  TemperatureTrendChart,
+  ThroughputTrendChart,
+} from "../components/charts/FacilityCharts";
 import { MetricTile, PageHeader } from "../components/DashboardWidgets";
 import { Button, Card } from "../components/ui";
 
@@ -77,43 +70,11 @@ export function AnalyticsPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h3 className="mb-4 font-semibold">Temperature Trend</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={trends.data?.points ?? []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                <XAxis
-                  dataKey="timestamp"
-                  tickFormatter={(v) => new Date(v).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  stroke="var(--text-muted)"
-                  tick={{ fontSize: 10 }}
-                />
-                <YAxis stroke="var(--text-muted)" tick={{ fontSize: 10 }} />
-                <Tooltip contentStyle={{ background: "var(--surface)", border: "1px solid var(--border)" }} />
-                <Area type="monotone" dataKey="temperatureC" stroke="var(--primary)" fill="var(--primary)" fillOpacity={0.2} />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          <TemperatureTrendChart data={trends.data?.points ?? []} />
         </Card>
 
         <Card>
-          <h3 className="mb-4 font-semibold">Throughput by Bucket</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={trends.data?.points ?? []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                <XAxis
-                  dataKey="timestamp"
-                  tickFormatter={(v) => new Date(v).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  stroke="var(--text-muted)"
-                  tick={{ fontSize: 10 }}
-                />
-                <YAxis stroke="var(--text-muted)" tick={{ fontSize: 10 }} />
-                <Tooltip contentStyle={{ background: "var(--surface)", border: "1px solid var(--border)" }} />
-                <Bar dataKey="throughputUph" fill="var(--accent)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <ThroughputTrendChart data={trends.data?.points ?? []} />
         </Card>
       </div>
 

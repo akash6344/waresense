@@ -27,14 +27,12 @@ function SessionWatcher() {
   return null;
 }
 
-function AnimatedRoutes() {
-  const checkSession = useAuthStore((s) => s.checkSession);
+function AppRoutes() {
   const theme = useSettingsStore((s) => s.theme);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    void checkSession();
-  }, [checkSession, theme]);
+  }, [theme]);
 
   return (
     <Routes>
@@ -58,7 +56,7 @@ export default function App() {
     <BrowserRouter>
       <ToastProvider>
         <SessionWatcher />
-        <AnimatedRoutes />
+        <AppRoutes />
       </ToastProvider>
     </BrowserRouter>
   );

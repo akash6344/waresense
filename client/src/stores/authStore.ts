@@ -19,7 +19,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   expiresAt: null,
-  status: "idle",
+  status: "checking",
   error: null,
 
   login: async (email, password) => {
@@ -78,3 +78,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 setSessionExpiredHandler(() => {
   useAuthStore.getState().handleSessionExpired();
 });
+
+// Restore session before first render so refresh doesn't flash redirect to login
+if (typeof window !== "undefined") {
+  void useAuthStore.getState().checkSession();
+}

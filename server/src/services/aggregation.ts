@@ -176,12 +176,27 @@ export function buildTrends(events: TelemetryEvent[], range: "5m" | "15m"): Tren
 
   const points = [...buckets.entries()]
     .sort(([a], [b]) => a - b)
-    .map(([ts, evts]) => ({
-      timestamp: new Date(ts).toISOString(),
-      temperatureC: Math.round(avg(evts.map((e) => e.temperatureC)) * 10) / 10,
-      humidityPct: Math.round(avg(evts.map((e) => e.humidityPct)) * 10) / 10,
-      throughputUph: Math.round(avg(evts.map((e) => e.throughputUph))),
-    }));
+    .map(([ts, evts]) => {
+      // Average per tick first, then across ticks in bucket — proper facility-wide signal
+      const perTick = new Map<string, TelemetryEvent[]>();
+      for (const e of evts) {
+        const tick = e.timestamp;
+        const list = perTick.get(tick) ?? [];
+        list.push(e);
+        perTick.set(tick, list);
+      }
+      const tickAvgs = [...perTick.values()].map((tickEvts) => ({
+        temperatureC: avg(tickEvts.map((e) => e.temperatureC)),
+        humidityPct: avg(tickEvts.map((e) => e.humidityPct)),
+        throughputUph: avg(tickEvts.map((e) => e.throughputUph)),
+      }));
+      return {
+        timestamp: new Date(ts).toISOString(),
+        temperatureC: Math.round(avg(tickAvgs.map((t) => t.temperatureC)) * 100) / 100,
+        humidityPct: Math.round(avg(tickAvgs.map((t) => t.humidityPct)) * 100) / 100,
+        throughputUph: Math.round(avg(tickAvgs.map((t) => t.throughputUph))),
+      };
+    });
 
   return {
     range,

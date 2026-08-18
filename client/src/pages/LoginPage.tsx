@@ -23,6 +23,20 @@ export function LoginPage() {
     }
   }, [reason, showToast]);
 
+  useEffect(() => {
+    if (status === "authenticated") {
+      navigate(from, { replace: true });
+    }
+  }, [status, navigate, from]);
+
+  if (status === "checking") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-bg text-muted">
+        Loading session…
+      </div>
+    );
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {

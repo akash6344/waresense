@@ -24,7 +24,7 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-function meanRevert(current: number, target: number, strength = 0.15): number {
+function meanRevert(current: number, target: number, strength = 0.06): number {
   return current + (target - current) * strength;
 }
 
@@ -102,14 +102,27 @@ export class SimulationEngine {
       let hum = meanRevert(state.humidityPct, profile.humBase);
       let thr = meanRevert(state.throughputUph, profile.thrBase);
 
-      temp = randomWalk(temp, 0.8, profile.tempBase - profile.tempRange, profile.tempBase + profile.tempRange);
-      hum = randomWalk(hum, 2, profile.humBase - profile.humRange, profile.humBase + profile.humRange);
-      thr = randomWalk(thr, 15, profile.thrBase - profile.thrRange, profile.thrBase + profile.thrRange);
+      temp = randomWalk(temp, 1.8, profile.tempBase - profile.tempRange, profile.tempBase + profile.tempRange);
+      hum = randomWalk(hum, 4.5, profile.humBase - profile.humRange, profile.humBase + profile.humRange);
+      thr = randomWalk(thr, 35, profile.thrBase - profile.thrRange, profile.thrBase + profile.thrRange);
 
-      if (this.tickCount % 25 === 0 && zone.id === ZONES[this.tickCount % ZONES.length]!.id) {
-        temp += (Math.random() > 0.5 ? 1 : -1) * profile.tempRange * 0.6;
-        hum += (Math.random() > 0.5 ? 1 : -1) * profile.humRange * 0.5;
+      // Occasional sensor excursions — visible on charts and status badges
+      if (this.tickCount % 12 === 0 && zone.id === ZONES[this.tickCount % ZONES.length]!.id) {
+        temp += (Math.random() > 0.5 ? 1 : -1) * profile.tempRange * (0.75 + Math.random() * 0.5);
+        hum += (Math.random() > 0.5 ? 1 : -1) * profile.humRange * (0.6 + Math.random() * 0.4);
+        thr += (Math.random() > 0.5 ? 1 : -1) * profile.thrRange * (0.4 + Math.random() * 0.3);
       }
+
+      // Small ambient drift so values don't lock to baseline
+      if (Math.random() < 0.08) {
+        temp += (Math.random() - 0.5) * 2.5;
+        hum += (Math.random() - 0.5) * 6;
+        thr += (Math.random() - 0.5) * 40;
+      }
+
+      temp = clamp(temp, profile.tempBase - profile.tempRange * 1.2, profile.tempBase + profile.tempRange * 1.2);
+      hum = clamp(hum, profile.humBase - profile.humRange * 1.2, profile.humBase + profile.humRange * 1.2);
+      thr = clamp(thr, profile.thrBase - profile.thrRange * 1.2, profile.thrBase + profile.thrRange * 1.2);
 
       const status = deriveStatus(temp, hum, thr, profile);
       const eventLabel = deriveEventLabel(prevStatus, status);

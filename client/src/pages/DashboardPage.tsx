@@ -1,9 +1,13 @@
 import { useMemo } from "react";
 import { Pause, Play } from "lucide-react";
-import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useLiveStore } from "../stores/liveStore";
 import { useTelemetryStream } from "../hooks/useData";
 import { LiveIndicator, MetricTile, PageHeader } from "../components/DashboardWidgets";
+import {
+  buildLiveTrendPoints,
+  TemperatureTrendChart,
+  ThroughputTrendChart,
+} from "../components/charts/FacilityCharts";
 import { Button, Card, StatusPill } from "../components/ui";
 import { formatRelativeTime } from "../lib/apiClient";
 
@@ -25,24 +29,14 @@ export function DashboardPage() {
     const totalThr = latest.reduce((a, e) => a + e.throughputUph, 0);
     const activeZones = latest.filter((e) => e.status !== "CRITICAL").length;
     return {
-      avgTemp: avgTemp.toFixed(1),
-      avgHum: avgHum.toFixed(1),
+      avgTemp: avgTemp.toFixed(2),
+      avgHum: avgHum.toFixed(2),
       totalThr,
       activeZones,
     };
   }, [latestByZone]);
 
-  const sparkData = useMemo(
-    () =>
-      [...events]
-        .reverse()
-        .slice(-30)
-        .map((e) => ({
-          t: new Date(e.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
-          temp: e.temperatureC,
-        })),
-    [events],
-  );
+  const liveTrendData = useMemo(() => buildLiveTrendPoints(events, 60), [events]);
 
   return (
     <div>
@@ -67,34 +61,35 @@ export function DashboardPage() {
         <MetricTile label="Active Zones" value={facilityMetrics?.activeZones ?? "—"} unit={`/ 6`} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <h3 className="mb-4 font-semibold">Temperature Sparkline (live)</h3>
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={sparkData}>
-                <XAxis dataKey="t" tick={{ fontSize: 10 }} stroke="var(--text-muted)" />
-                <YAxis tick={{ fontSize: 10 }} stroke="var(--text-muted)" />
-                <Tooltip contentStyle={{ background: "var(--surface)", border: "1px solid var(--border)" }} />
-                <Line type="monotone" dataKey="temp" stroke="var(--primary)" dot={false} strokeWidth={2} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-
+      <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h3 className="mb-4 font-semibold">Live Event Ticker</h3>
-          <div className="max-h-48 space-y-2 overflow-y-auto">
-            {events.slice(0, 12).map((e) => (
-              <div key={`${e.zoneId}-${e.timestamp}`} className="flex items-center justify-between text-sm">
-                <span className="truncate">{e.zoneName}</span>
-                <span className="font-mono text-xs text-muted">{e.eventLabel}</span>
-              </div>
-            ))}
-            {events.length === 0 && <p className="text-sm text-muted">Waiting for telemetry…</p>}
-          </div>
+          <TemperatureTrendChart
+            data={liveTrendData}
+            title="Temperature Trend"
+            live
+          />
+        </Card>
+        <Card>
+          <ThroughputTrendChart
+            data={liveTrendData}
+            title="Throughput"
+            live
+          />
         </Card>
       </div>
+
+      <Card className="mt-6">
+        <h3 className="mb-4 font-semibold">Live Event Ticker</h3>
+        <div className="max-h-40 space-y-2 overflow-y-auto">
+          {events.slice(0, 12).map((e) => (
+            <div key={`${e.zoneId}-${e.timestamp}`} className="flex items-center justify-between text-sm">
+              <span className="truncate">{e.zoneName}</span>
+              <span className="font-mono text-xs text-muted">{e.eventLabel}</span>
+            </div>
+          ))}
+          {events.length === 0 && <p className="text-sm text-muted">Waiting for telemetry…</p>}
+        </div>
+      </Card>
 
       <Card className="mt-6">
         <h3 className="mb-4 font-semibold">Zone Status Grid</h3>
