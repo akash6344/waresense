@@ -1,16 +1,8 @@
 # WareSense Client
 
-Independent React frontend for the WareSense warehouse monitoring dashboard.
+React frontend for the WareSense warehouse monitoring dashboard.
 
-## Quick start (Docker — recommended)
-
-From the repo root:
-
-```bash
-docker compose up --build
-```
-
-Open **http://localhost:9137** — see [SUBMISSION.md](../SUBMISSION.md).
+**Full setup (Docker + manual):** see [README.md](../README.md) in the repo root.
 
 ## Stack
 

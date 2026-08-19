@@ -1,89 +1,30 @@
-# WareSense — Submission Guide
+# Submission Guide
+
+Setup instructions (Docker **and** manual) are in the main **[README.md](README.md)**.
 
 ## Repository
 
-**GitHub:** https://github.com/akash6344/waresense
+https://github.com/akash6344/waresense
 
-## Ports (non-default — avoids conflicts)
+## What to send
 
-| Service | URL |
-|---------|-----|
-| **App (frontend)** | http://localhost:9137 |
-| **API (backend)** | http://localhost:8740 |
+1. **Repo link:** https://github.com/akash6344/waresense  
+2. **Run (Docker):** `docker compose up --build` → http://localhost:9137  
+3. **Run (manual):** see README — start `server/` then `client/`  
+4. **Login:** `operator@waresense.io` / `warehouse123`
 
-## One-command setup (Docker)
-
-**Requirements:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
-
-```bash
-git clone https://github.com/akash6344/waresense.git
-cd waresense
-docker compose up --build
-```
-
-Open **http://localhost:9137**
-
-Stop with `Ctrl+C`, or run detached: `docker compose up --build -d`
-
-## Manual setup (without Docker)
-
-**Terminal 1 — Backend**
-```bash
-cd server
-npm install
-cp .env.example .env
-npm run dev
-```
-
-**Terminal 2 — Frontend**
-```bash
-cd client
-npm install
-npm run dev
-```
-
-Open **http://localhost:9137**
-
-## Demo credentials
-
-| Field | Value |
-|-------|-------|
-| Email | `operator@waresense.io` |
-| Password | `warehouse123` |
-
-## What to submit (email / form)
-
-You can send:
-
-1. **GitHub repo link:** https://github.com/akash6344/waresense  
-2. **How to run:** `docker compose up --build` then open http://localhost:9137  
-3. **Login:** operator@waresense.io / warehouse123  
-4. **Stack:** React + TypeScript + Vite + Tailwind + Zustand (frontend) · Node + Express + SSE + JWT (backend)  
-5. **Notes:** Independent `client/` and `server/` folders; assignment brief in `server/docs/`
-
-### Short submission blurb (copy-paste)
+### Copy-paste blurb
 
 ```
 WareSense — Smart Warehouse Real-Time Dashboard
 
 Repo: https://github.com/akash6344/waresense
 
-Run: docker compose up --build
-App: http://localhost:9137
-Login: operator@waresense.io / warehouse123
+Docker:  docker compose up --build  →  http://localhost:9137
+Manual:  see README (server + client, two terminals)
+Login:   operator@waresense.io / warehouse123
 
-Features: SSE live telemetry, periodic polling APIs, JWT session auth,
-6-page dashboard, light/dark theming, filters/search/sort, alert drawer.
-```
-
-## Project structure
-
-```
-waresense/
-├── client/          # React frontend (port 9137)
-├── server/          # Express backend (port 8740)
-├── docker-compose.yml
-└── SUBMISSION.md
+Stack: React, TypeScript, Vite, Tailwind, Zustand | Node, Express, SSE, JWT
 ```
 
 ## Assignment checklist

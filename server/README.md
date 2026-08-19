@@ -1,16 +1,8 @@
 # WareSense Server
 
-Independent Express backend for the WareSense warehouse monitoring dashboard.
+Express backend for the WareSense warehouse monitoring dashboard.
 
-## Quick start (Docker — recommended)
-
-From the repo root:
-
-```bash
-docker compose up --build
-```
-
-See [SUBMISSION.md](../SUBMISSION.md) for full instructions.
+**Full setup (Docker + manual):** see [README.md](../README.md) in the repo root.
 
 ## Stack
 
