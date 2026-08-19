@@ -4,6 +4,13 @@
 
 **GitHub:** https://github.com/akash6344/waresense
 
+## Ports (non-default — avoids conflicts)
+
+| Service | URL |
+|---------|-----|
+| **App (frontend)** | http://localhost:9137 |
+| **API (backend)** | http://localhost:8740 |
+
 ## One-command setup (Docker)
 
 **Requirements:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
@@ -14,7 +21,7 @@ cd waresense
 docker compose up --build
 ```
 
-Open **http://localhost:5173**
+Open **http://localhost:9137**
 
 Stop with `Ctrl+C`, or run detached: `docker compose up --build -d`
 
@@ -35,7 +42,7 @@ npm install
 npm run dev
 ```
 
-Open **http://localhost:5173**
+Open **http://localhost:9137**
 
 ## Demo credentials
 
@@ -49,7 +56,7 @@ Open **http://localhost:5173**
 You can send:
 
 1. **GitHub repo link:** https://github.com/akash6344/waresense  
-2. **How to run:** `docker compose up --build` then open http://localhost:5173  
+2. **How to run:** `docker compose up --build` then open http://localhost:9137  
 3. **Login:** operator@waresense.io / warehouse123  
 4. **Stack:** React + TypeScript + Vite + Tailwind + Zustand (frontend) · Node + Express + SSE + JWT (backend)  
 5. **Notes:** Independent `client/` and `server/` folders; assignment brief in `server/docs/`
@@ -62,7 +69,7 @@ WareSense — Smart Warehouse Real-Time Dashboard
 Repo: https://github.com/akash6344/waresense
 
 Run: docker compose up --build
-App: http://localhost:5173
+App: http://localhost:9137
 Login: operator@waresense.io / warehouse123
 
 Features: SSE live telemetry, periodic polling APIs, JWT session auth,
@@ -73,8 +80,8 @@ Features: SSE live telemetry, periodic polling APIs, JWT session auth,
 
 ```
 waresense/
-├── client/          # React frontend (port 5173)
-├── server/          # Express backend (port 4000)
+├── client/          # React frontend (port 9137)
+├── server/          # Express backend (port 8740)
 ├── docker-compose.yml
 └── SUBMISSION.md
 ```

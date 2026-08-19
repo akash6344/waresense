@@ -25,16 +25,16 @@ cp .env.example .env
 npm run dev
 ```
 
-Runs at **http://localhost:4000**
+Runs at **http://localhost:8740**
 
 ## Environment
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `PORT` | `4000` | Server port |
+| `PORT` | `8740` | Server port |
 | `JWT_SECRET` | — | Signing secret for session tokens |
 | `JWT_EXPIRES_IN` | `15m` | Session lifetime |
-| `CLIENT_ORIGIN` | `http://localhost:5173` | CORS allowed origin |
+| `CLIENT_ORIGIN` | `http://localhost:9137` | CORS allowed origin |
 
 ## Demo login
 

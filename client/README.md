@@ -10,7 +10,7 @@ From the repo root:
 docker compose up --build
 ```
 
-Open **http://localhost:5173** — see [SUBMISSION.md](../SUBMISSION.md).
+Open **http://localhost:9137** — see [SUBMISSION.md](../SUBMISSION.md).
 
 ## Stack
 
@@ -24,9 +24,9 @@ npm install
 npm run dev
 ```
 
-Runs at **http://localhost:5173**
+Runs at **http://localhost:9137**
 
-The dev server proxies `/api` requests to the backend at `http://localhost:4000`. Start the [server](../server/README.md) first.
+The dev server proxies `/api` requests to the backend at `http://localhost:8740`. Start the [server](../server/README.md) first.
 
 ## Demo login
 

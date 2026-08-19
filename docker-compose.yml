@@ -7,16 +7,16 @@ services:
       JWT_SECRET: docker-dev-secret-change-in-production
       JWT_EXPIRES_IN: 15m
       NODE_ENV: development
-      CLIENT_ORIGIN: http://localhost:5173
+      CLIENT_ORIGIN: http://localhost:9137
     ports:
-      - "4000:4000"
+      - "8740:4000"
     restart: unless-stopped
 
   client:
     build: ./client
     container_name: waresense-client
     ports:
-      - "5173:80"
+      - "9137:80"
     depends_on:
       - server
     restart: unless-stopped
