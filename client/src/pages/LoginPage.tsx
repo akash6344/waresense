@@ -92,7 +92,7 @@ export function LoginPage() {
               {error && <p className="font-mono text-xs text-critical">{error}</p>}
               <p className="font-mono text-[10px] text-muted">Demo — operator@waresense.io / warehouse123</p>
               <Button type="submit" className="w-full" disabled={status === "authenticating"}>
-                {status === "authenticating" ? "Checking…" : "Enter console"}
+                {status === "authenticating" ? "Checking…" : "Login"}
               </Button>
             </form>
           </Card>

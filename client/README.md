@@ -2,6 +2,16 @@
 
 Independent React frontend for the WareSense warehouse monitoring dashboard.
 
+## Quick start (Docker — recommended)
+
+From the repo root:
+
+```bash
+docker compose up --build
+```
+
+Open **http://localhost:5173** — see [SUBMISSION.md](../SUBMISSION.md).
+
 ## Stack
 
 React 18 · TypeScript · Vite · Tailwind CSS · Zustand · Recharts · React Router

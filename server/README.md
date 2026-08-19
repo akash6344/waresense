@@ -2,6 +2,16 @@
 
 Independent Express backend for the WareSense warehouse monitoring dashboard.
 
+## Quick start (Docker — recommended)
+
+From the repo root:
+
+```bash
+docker compose up --build
+```
+
+See [SUBMISSION.md](../SUBMISSION.md) for full instructions.
+
 ## Stack
 
 Node.js · Express 4 · TypeScript · SSE · JWT cookie auth · Zod · Vitest
